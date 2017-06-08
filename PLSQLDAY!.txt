@@ -1,0 +1,1243 @@
+Class day 1
+-----------------------------------------------
+declare
+v_ename varchar2(20);
+v_job varchar2(20);
+v_empno number:=&empno;
+begin
+select ename,job into v_ename,v_job from emp where empno=v_empno;
+dbms_output.put_line('ename is '||v_ename||'ejob is'||v_job);
+end;
+/
+------------------------------------------------
+declare
+rec emp%rowtype;
+v_empno number:=&eno;
+begin
+select * into rec from emp where empno=v_empno;
+dbms_output.put_line('name is'||rec.ename||'sal is'||rec.sal);
+end;
+/
+--------------------------------------------------------
+declare
+v_ename emp.ename%type;
+v_sal emp.sal%type;
+v_empno number:=&empno;
+begin
+select ename,sal into v_ename,v_sal from emp where empno=v_empno;
+dbms_output.put_line('name is'||v_ename||'sal is'||v_sal);
+end;
+/
+---------------------------------------------------
+declare
+a number:=&n1;
+begin
+if (mod(a,2)=0) then
+dbms_output.put_line('number is even');
+else
+dbms_output.put_line('number is odd');
+end if;
+end;
+/
+----------------------------------------------------
+DECLARE
+a number :=&num1;
+b number:= &num2;
+c number:=&num3;
+begin
+if (a>b and a>c) then
+dbms_output.put_line(a||'is max number');
+elsif(b>c)then
+dbms_output.put_line(b||'is max number');
+else
+dbms_output.put_line(c||'is max number');
+end if;
+end;
+/
+-----------------------------------------------------------
+declare
+i number:=1;
+begin
+loop
+exit when(i>5);
+dbms_output.put_line(i);
+i:=i+1;
+end loop;
+end;
+/
+-------------------------------------
+begin
+for i in 1..5
+loop
+dbms_output.put_line(i);
+end loop;
+end;
+/
+------------------------------------
+begin
+for i in reverse 1..5
+loop
+dbms_output.put_line(i);
+end loop;
+end;
+/
+------------------------------------
+declare
+maxsal number;
+begin
+select max(sal) into maxsal from emp;
+dbms_output.put_line(maxsal);
+end;
+/
+====================================
+assignment day 1
+-------------------
+4)
+declare
+i number:=&num1;
+j number:=&num2;
+result number;
+begin
+result:=((i/j)+j);
+dbms_output.put_line(result);
+end;
+/
+----------------------------
+5)
+declare
+MAX_SAL number;AVG_SAL 
+MIN_SAL number;
+v_deptno number:=&deptno;
+begin
+select max(sal), min(sal) into MAX_SAL,MIN_SAL from emp where deptno=v_deptno;
+dbms_output.put_line('max sal is'||MAX_SAL||'min sal is'||MIN_SAL);
+end;
+/
+------------------------------------
+6)
+declare
+v_jobid varchar2(20):='&jobid';
+AVG_SAL number;
+begin
+select avg(sal) into AVG_SAL from emp where job=v_jobid;
+dbms_output.put_line('job : '||v_jobid||'avergae sal is'||AVG_SAL );
+end;
+/
+---------------------------------
+7)declare
+   v_empid number:=&empno;
+   v_sal emp.sal%type;
+   begin
+   select sal into v_sal from emp where empno=v_empid;
+   if v_sal<2500 then
+   dbms_output.put_line('LOW');
+   elsif v_sal between 2500 and 5000 then
+   dbms_output.put_line('MEDIUM');
+   elsif v_sal >5000 then
+   dbms_output.put_line('HIGH');
+   end if;
+   end;
+/
+--------------------------------------------
+8)
+declare
+v_num number:=&no;
+begin
+case v_num
+
+when 1 then
+dbms_output.put_line('January');
+when 2 then
+dbms_output.put_line('February');
+when 3 then
+dbms_output.put_line('March');
+when 4 then
+dbms_output.put_line('April');
+when 5 then
+dbms_output.put_line('May');
+when 6 then
+dbms_output.put_line('June');
+when 7 then
+dbms_output.put_line('July');
+when 8 then
+dbms_output.put_line('August');
+when 9 then
+dbms_output.put_line('September');
+when 10 then
+dbms_output.put_line('Octomber');
+when 11 then
+dbms_output.put_line('November');
+when 12 then
+dbms_output.put_line('december');
+
+end case;
+end;
+/
+-----------------------------------------
+9)
+declare
+v_no number:=&no;
+v_fact number:=1;
+begin
+for i in 1..v_no
+loop
+v_fact:=v_fact*i;
+end loop;
+dbms_output.put_line('factorial is '||v_fact);
+end;
+/
+----------------------------------------------
+10)(schema in plsql)
+declare
+v_billno bill_details.bill_no%type:=&billno;
+v_cust_id  customers.cust_id%type;
+v_plan_name plans.plan_name%type;
+v_bill_amount bill_details. BILL_AMOUNT%type;
+v_SERVICE_ID services.SERVICE_ID%type;
+v_SERVICE_NAME services.SERVICE_NAME%type;
+v_plan_id plans.PLAN_ID%type;
+begin
+select cust_id,bill_amount into v_cust_id,v_bill_amount from bill_details where bill_no=v_billno;
+select p.plan_name into v_plan_name from plans p, customers c where p.plan_id=c.plan_id and c.cust_id=v_cust_id ;
+select s.service_name into v_SERVICE_NAME from services s,plans p where p.service_id=s.service_id and p.plan_name=v_plan_name;
+dbms_output.put_line(v_billno||v_cust_id  ||v_plan_name||v_bill_amount||v_SERVICE_NAME );
+end;
+/
+--------------------------------------------
+11)
+--------------------------------------------
+PLSQL DAY2
+--------------------------------------------
+declare
+cursor c_emp is select * from emp;
+v_emp c_emp%rowtype;
+begin
+open c_emp;
+for v_counter in 1..10
+loop
+fetch c_emp into v_emp;
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+close c_emp;
+end;
+/
+-------------------------------------------
+declare
+cursor c_emp is select * from emp;
+v_emp c_emp%rowtype;
+begin
+open c_emp;
+loop
+fetch c_emp into v_emp;
+exit when c_emp%notfound;
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+if c_emp%isopen then
+dbms_output.put_line('closing cursor');
+end if;
+close c_emp;
+end;
+/
+-------------------------------------------------
+passing parameter ---------------------
+------------------------------------------------
+declare
+cursor c_emp(p_deptno number) is select * from emp where deptno=p_deptno;
+v_emp c_emp%rowtype;
+begin
+
+open c_emp(10);
+dbms_output.put_line('for deptno 10');
+loop
+fetch c_emp into v_emp;
+exit when c_emp%notfound;
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+close c_emp;
+
+open c_emp(20);
+dbms_output.put_line('for deptno 20');
+loop
+fetch c_emp into v_emp;
+exit when c_emp%notfound;
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+close c_emp;
+
+end;
+/
+---------------------------------------------------
+reduced lines of code by using for loop--no open,close,fetch
+---------------------------------------------------
+declare
+
+cursor c_emp(p_deptno number) is select * from emp where deptno=p_deptno;
+
+begin
+
+dbms_output.put_line('for deptno 10');
+for v_emp in c_emp(10)
+loop
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+
+dbms_output.put_line('for deptno 20');
+for v_emp in c_emp(20)
+loop
+dbms_output.put_line('ename'||v_emp.ename||'sal'||v_emp.sal);
+end loop;
+end;
+/
+------------------------------------------------------
+IMPLICIT CURSOR
+------------------------------------------------------
+begin
+update emp set sal=sal+1000 where deptno=10;
+if SQL%found then
+dbms_output.put_line('record updated -number of records updated'||SQL%rowcount);
+else
+dbms_output.put_line('records not up
+dated');
+end if;
+end;
+/
+----------------------------------------------------------------
+assignment 2
+----------------------------------------------------------------
+1)
+declare
+v_deptno number:=&deptno;
+begin
+update emp set sal=sal+0.1*sal  where deptno=v_deptno;
+if SQL%found then
+dbms_output.put_line('records updated number of rows updated '||SQL%rowcount);
+else
+dbms_output.put_line('records not updated');
+end if;
+end;
+/
+-------------------------------------------------------------------
+2)
+i)by using exit when condition
+------------------------------------
+declare
+cursor c_emp is select ename,sal,job from emp;
+v_emp c_emp%rowtype;
+i number:=1;
+
+begin
+  open c_emp;
+    loop
+    fetch c_emp into v_emp;
+    exit when (i=6);
+    dbms_output.put_line('name is '||v_emp.ename||'sal is'||v_emp.sal||'job is '||v_emp.job);
+    i:=i+1;
+    end loop;
+  close c_emp;
+end;
+/
+-------------------------------------------
+ii)while loop
+------------------------------------------
+declare
+cursor c_emp is select ename,sal,job from emp;
+v_emp c_emp%rowtype;
+i number:=1;
+begin
+open c_emp;
+while (i<=5)
+loop
+fetch c_emp into v_emp;
+dbms_output.put_line('name is '||v_emp.ename||'sal is'||v_emp.sal||'job is '||v_emp.job);
+ i:=i+1;
+ end loop;
+close c_emp;
+end;
+/
+------------------------------------------------
+iii)for loop
+declare
+cursor c_emp is select ename,sal,job from emp;
+v_emp c_emp%rowtype;
+begin
+open c_emp;
+for c in 1..5
+loop
+fetch c_emp into v_emp;
+dbms_output.put_line('name is '||v_emp.ename||'sal is'||v_emp.sal||'job is '||v_emp.job);
+end loop;
+close c_emp;
+end;
+/
+---------------------------------------------------------------
+---------------------------------------------------------------
+3)
+declare
+cursor c_emp is select ename,sal from emp where lower(job) like 'clerk';
+v_emp c_emp%rowtype;
+begin
+open c_emp;
+loop
+fetch c_emp into v_emp;
+exit when c_emp%notfound;
+dbms_output.put_line('name is'||v_emp.ename||'sal is'|| v_emp.sal);
+end loop;
+close c_emp;
+end;
+/
+------------------------------------------------------------------
+4)
+declare
+cursor c_emp(p_jobid emp.job%type) is select ename, deptno, sal from emp where job='&empid';
+
+v_emp c_emp%rowtype;
+begin
+open c_emp('p_jobid' );
+loop
+fetch c_emp into v_emp;
+exit when c_emp%notfound;
+dbms_output.put_line('name is'||v_emp.ename||'sal is'|| v_emp.sal||'deptno'||v_emp.deptno);
+end loop;
+close c_emp;
+end;
+/
+---------------------------------------------------------
+5)
+declare
+cursor c_employees is select * from employees for update;
+begin
+
+for v_employees in c_employees
+loop
+if (v_employees.department_id=10 and v_employees.job_id='SH-CLERK') then
+update employees set salary=(1.2*salary) where current of c_employees;
+elsif (v_employees.department_id=20 and v_employees.job_id='ST-MAN') then
+update employees set salary=(1.05*salary)  where current of c_employees ;
+else 
+update employees set salary =1.1*salary  where current of c_employees;
+end if;
+end loop;
+end;
+/
+---------------------------------------------------------------------
+6)
+declare
+cursor c_dept is select * from dept;
+cursor c_emp(p_deptno number) is select * from emp where deptno=p_deptno;
+begin
+    for v_dept in c_dept
+    loop
+           dbms_output.put_line(v_dept.deptno||'    '||v_dept.dname||'    ');
+           for v_emp in c_emp(v_dept.deptno)
+           loop
+           dbms_output.put_line(v_emp.empno||'    '|| v_emp.ename||'    '||v_emp.sal||'    '||v_emp.job);
+            end loop;
+     end loop;
+end;
+/ 
+=====================================================
+PLSQL DAY 3
+--------------------------------------------
+declare
+   v_sal emp.sal%type;
+   var number(3);
+   z number;
+begin
+   var:=100;
+   z:=10;
+   select sal into v_sal from emp where empno=7788;
+   dbms_output.put_line('sal is'||v_sal);
+ 
+exception
+when no_data_found then
+dbms_output.put_line('empno not available');
+when zero_divide then
+dbms_output.put_line('dont try to divide by 0');
+when others then
+dbms_output.put_line('exception raised');
+end;
+/
+--------------------------------------------------
+declare
+v_sal emp.sal%type;
+var number(3);
+z number;
+begin
+var:=1000;
+z:=10/0;
+select sal into v_sal from emp where empno=1;
+dbms_output.put_line('sal is ='||v_sal);
+
+exception
+when no_data_found or value_error then
+dbms_output.put_line('empno not available or value error');
+when zero_divide then
+dbms_output.put_line('dont try to divide by zero');
+when others then
+dbms_output.put_line('exception raised');
+end;
+/
+----------------------------------------------------
+begin
+    declare
+        v_sal emp.sal%type;
+        var number(3):=100;
+        z number;
+        begin
+        z:=10/0;
+        select sal into v_sal from emp where empno=7788;
+        dbms_output.put_line('sal is '||v_sal);
+        end;
+
+exception
+when no_data_found or value_error then
+dbms_output.put_line('empno not available or value error');
+when zero_divide then
+dbms_output.put_line('we cannot divide by zero');
+when too_many_rows then
+dbms_output.put_line('multiple rows fetched');
+when others then
+dbms_output.put_line('exception raised');
+end;
+/  
+-----------------------------------------------------------
+declare
+    var number(3);
+    z number;
+begin
+    begin
+       var:=100;
+       dbms_output.put_line('var is '||var);
+    exception
+        when no_data_found or value_error then
+        dbms_output.put_line('no data available or value error');
+    end;
+z:=10/0;
+exception
+when zero_divide then
+dbms_output.put_line('dont try to divide by zero');
+when others then
+dbms_output.put_line(' exception raised');
+end;
+/
+----------------------------------------------------
+pragma exception_init(childfound, -02292);
+-------------------------------------------
+declare
+childfound exception;
+begin
+delete dept where deptno=10;
+dbms_output.put_line('dept 10 is deleted');
+exception
+when childfound then
+dbms_output.put_line('emp existing in dept 10');
+end;
+/
+------------------------------------------------
+declare
+marks number;
+wrong_marks exception;
+begin
+marks:=&marks;
+if marks>100 then
+raise wrong_marks;
+end if;
+dbms_output.put_line('you have scored :'||marks);
+
+exception
+when wrong_marks then
+dbms_output.put_line('please enter proper marks < 100');
+end;
+/
+----------------------------
+declare
+emp_id number:=&num1;
+v_sal emp.sal%type;
+amount number:=&amt;
+wrong_amt exception;
+
+begin
+select sal into v_sal from emp where empno:=emp_id;
+if (amount > v_sal) then
+raise wrong_amt;
+dbms_output.put_line('amount credited');
+end if;
+
+exception
+when wrong_amt then
+dbms_output.put_line('you have entered wrong amount');
+end;
+/
+--------------------------------------------
+declare
+var number(3);
+begin
+var:=10000;
+dbms_output.put_line('var is '||var);
+exception 
+when value_error then
+dbms_output.put_line('error code ='||SQLCODE||'message='||SQLERRM);
+end;
+/
+==============================================
+Assignment 3----------
+==============================================
+1)
+create table MESSAGES1(err_msg varchar2(250));
+
+declare
+v_sal number:=&sal;
+v_ename emp.ename%type;
+
+begin
+select ename into v_ename from emp where sal=v_sal;
+dbms_output.put_line(v_ename || 'has salary '||v_sal);
+
+exception
+when no_data_found then
+dbms_output.put_line('No employee with salary of  '||v_sal);
+insert into MESSAGES1 values ('No employee with salary of  '||v_sal);
+
+when too_many_rows then
+dbms_output.put_line('More than one employee with salary of '||v_sal);
+insert into MESSAGES1 values ('More than one employee with salary of '||v_sal);
+
+when others then
+dbms_output.put_line('Some other error occurred');
+insert into MESSAGES1 values('Some other error occurred');
+
+end;
+/
+-------------------------------------------------------------------------------
+2)
+declare
+DUPLICATE_DEPT exception;
+v_loc varchar2(20):='&loc';
+v_deptno number(2):=&deptno;
+v_dname varchar2(20):='&deptname';
+pragma EXCEPTION_INIT(DUPLICATE_DEPT, -00001);
+
+begin
+insert into dept values (v_deptno,v_dname,v_loc);
+
+exception 
+when DUPLICATE_DEPT then
+dbms_output.put_line('duplication error');
+end;
+/
+----------------------------------------------------------
+3)
+declare
+duplicate_president exception;
+v_count number;
+
+begin
+select count(*) into v_count  from emp where lower(job) like 'clerk';
+if (v_count > 1) then
+raise duplicate_president;
+end if;
+ 
+dbms_output.put_line('one president found');
+
+exception
+when duplicate_president then
+dbms_output.put_line('more than one president');
+end;
+/
+--------------------------------------------------------------
+4)
+declare
+           empid1 number:=&emp1;
+           empid2 number:=&emp2;
+           sal1 number;
+           sal2 number;
+           e1 number:=0;
+           e2 number:=0;
+begin
+begin
+begin
+            select sal into sal1 from emp where empno=empid1;
+            update emp set sal=sal + sal*0.1 where empno=empid1;
+exception
+            when no_data_found then
+            e1:=1;
+end;
+            select sal into sal2 from emp where empno=empid2;
+            update emp set sal=sal+sal*0.2 where empno=empid2;
+exception
+            when no_data_found then
+            e2:=1;
+end;
+            if(e1=1 or e2=1) then
+            raise no_data_found;
+            end if;
+exception
+            when no_data_found then
+            if(e1=1 and e2=1) then
+           dbms_output.put_line('sorry both employee are not present');
+    elsif (e1=1 and e2=0) then
+   dbms_output.put_line('sorry  employee1 is not present');
+     elsif (e1=0 and e2=1) then
+   dbms_output.put_line('sorry  employee2  is not present');
+     end if;
+end;
+/ 
+--------------------------------------------------------
+Day 4:procedures and  functions
+--------------------------------------------------------
+create or replace procedure display_msg as
+begin
+dbms_output.put_line('hello all');
+end;
+/
+
+execute display_msg;
+
+begin
+display_msg;
+end;
+/
+
+------------------------------------------------------
+create or replace procedure display_msg as
+v_sal emp.sal%type;
+
+begin
+select sal into v_sal from emp where empno=7788;
+dbms_output.put_line('sal is '||v_sal);
+end;
+
+execute display_msg;
+
+---------------------------------------------------
+create or replace procedure display_msg as
+v_sal emp.sal%type;
+begin
+select sal into v_sal from emp where empno=7788;
+dbms_output.put_line('sal is '||v_sal);
+exception
+when no_data_found then
+dbms_output.put_line('no empno available');
+end;
+/
+
+execute display_msg;
+
+-----------------------------------------------------
+create or replace procedure display_msg as
+v_sal emp.sal%type;
+begin
+select sal into v_sal from emp where empno=7788;
+dbms_output.put_line('salary is'||v_sal);
+if v_sal>2000 then
+dbms_output.put_line('sal greater than 2000');
+elsif v_sal<2000 then
+dbms_output.put_line('sal less than 2000');
+end if;
+
+exception
+when no_data_found then
+dbms_output.put_line('empno not available');
+end;
+/
+
+execute display_msg;
+--------------------------------------------
+create or replace procedure display_msg as 
+v_empno number:=&empid;
+v_sal emp.sal%type;
+begin
+select sal into v_sal from emp where empno=v_empno;
+dbms_output.put_line('salary is'||v_sal);
+if v_sal>2000 then
+dbms_output.put_line('sal greater than 2000');
+elsif v_sal<2000 then
+dbms_output.put_line('sal less than 2000');
+end if;
+
+exception
+when no_data_found then
+dbms_output.put_line('empno not available');
+end;
+/	
+
+execute display_msg;
+--------------------------------------------------------
+using parameter
+--------------------------------------------------------
+create or replace procedure display_msg(p_empno number) as
+v_sal emp.sal%type;
+
+begin
+select sal into v_sal from emp where empno=p_empno;
+dbms_output.put_line('salary is '||v_sal);
+if v_sal>2000 then
+dbms_output.put_line('sal greater than 2000');
+elsif v_sal<2000 then
+dbms_output.put_line('sal less than 2000');
+end if;
+
+exception
+when no_data_found then
+dbms_output.put_line('empno not available');
+end;
+/	
+
+execute display_msg(7788);
+
+
+declare
+v_empno emp.empno%type:=&empid;
+begin
+display_msg(v_empno);
+end;
+/
+-----------------------------------------------------------------------
+use of cursor in procedure
+--------------------------------------------------------------------------
+create or replace procedure display_msg(p_deptno number) as
+cursor c_dept(p_deptno number) is select * from emp where deptno=p_deptno;
+v_emp c_dept%rowtype;
+begin
+for v_emp in c_dept(p_deptno)
+loop
+dbms_output.put_line('ename is '||v_emp.ename||'sal is'||v_emp.sal);
+end loop;
+exception
+when no_data_found then
+dbms_output.put_line('no employee available');
+end;
+/
+
+execute display_msg(p_deptno number);
+
+----------------------------------------------------------
+parameters used in procedures
+in to read only
+out write only
+---------------------------------------------------------
+create or replace procedure dis_msg(p_empno number,p_sal out number) as
+begin
+select sal into p_sal from emp where empno=p_empno;
+dbms_output.put_line('sal is '||p_sal);
+
+exception
+when no_data_found then
+dbms_output.put_line('no employee available');
+end;
+/
+
+declare
+v_sal emp.sal%type;
+begin
+dis_msg(7788, v_sal);
+end;
+/
+-----------------------------------------------
+create or replace procedure get_sal(p_empno number,p_sal in out number) as
+begin
+dbms_output.put_line('sal in procedure before modification is'  ||p_sal);
+select sal into p_sal from emp where empno=p_empno;
+dbms_output.put_line('salary is '||p_sal);
+if p_sal>2000 then
+dbms_output.put_line('salary is greater than 2000');
+elsif p_sal<2000 then
+dbms_output.put_line('less than 2000');
+end if;
+
+exception 
+when no_data_found then
+dbms_output.put_line('empno is not avail');
+end;
+/
+
+declare
+v_sal emp.sal%type:=1000;
+begin
+get_sal(7788,v_sal);
+end;
+------------------------------------------------------------------------
+function
+------------------------------------------------------------------------
+function returns something whereas procedure does not return anything
+-------------------------------------------------------------------------
+create or replace function get_salary (p_empno number) return number as
+v_sal emp.sal%type;
+begin
+select sal into v_sal from emp where empno=p_empno;
+dbms_output.put_line('sal is '||v_sal);
+if v_sal>2000 then
+dbms_output.put_line('salary is greater than 2000');
+elsif v_sal<2000 then
+dbms_output.put_line('less than 2000');
+end if;
+return v_sal;
+exception
+when no_data_found then
+dbms_output.put_line('not avail empno');
+end;
+/ 
+
+declare
+var_sal emp.sal%type;
+begin
+var_sal:=get_salary(7788);
+dbms_output.put_line('sal is '||var_sal);
+end;
+/
+------------------------------------------------------
+select get_salary(7788) from dual;
+
+-------function can be used with select query as function always returns a value and select query needs a value-------------------------------
+
+-------------------------------------------------------
+calling a function in a procedure
+--------------------------------------------------------
+create or replace procedure sal_des (p_empno emp.empno%type) as
+v_sal emp.sal%type;
+begin
+v_sal:=get_salary(p_empno);
+if v_sal>1500 then
+update emp set sal=sal+5000 where empno=p_empno;
+dbms_output.put_line('sal is '||v_sal);
+end if;
+end;
+ 
+execute sal_des(7788);
+------------------------------------------------------------------
+calling function in if statement:
+-------------------------------------------------------------------
+create or replace procedure sal_des(p_empno emp.empno%type) as
+v_sal emp.sal%type;
+begin
+v_sal:=get_salary(p_empno);
+if v_sal>2000 then
+update emp set sal=sal+1000 where empno=p_empno;
+else
+update emp set sal=sal+7000 where empno=p_empno;
+end if;
+end;
+/
+
+-------------------------------------------------------------------
+function can return boolean value
+-------------------------------------------------------------------
+create or replace function get_saal (p_empno number) return boolean as
+v_sal emp.sal%type;
+begin
+select sal into v_sal from emp where empno=p_empno;
+dbms_output.put_line('salary is'||v_sal);
+
+if v_sal>2000 then
+dbms_output.put_line('greater then 2000');
+return true;
+else
+dbms_output.put_line('less then 2000');
+return false;
+end if;
+exception
+when no_data_found then
+dbms_output.put_line('not avail empno');
+end;
+/
+
+begin
+if get_saal(7788) then
+dbms_output.put_line('greater then 2000');
+else
+dbms_output.put_line('less then 2000');
+end if;
+end;
+/
+------------------------------------------------------------
+Assignment 04
+-------------------------------------------------------------
+1)
+
+create or replace procedure USER_QUERY_EMP(p_myeno emp.empno%type ,p_myjob out emp.job%type, p_mysal out emp.sal%type) as
+begin
+select job,sal into p_myjob,p_mysal from emp where empno=p_myeno;
+dbms_output.put_line('empno is '||p_myeno||'job is '||p_myjob||'sal is '||p_mysal);
+exception
+when no_data_found then
+dbms_output.put_line('error');
+end;
+/ 
+
+declare
+v_job emp.job%type;
+v_sal emp.sal%type;
+begin
+USER_QUERY_EMP(7788,v_job,v_sal);
+dbms_output.put_line('job is '||v_job||'sal is '||v_sal);
+end;
+/
+
+-----------------------------------------------------------------------------------
+2)
+
+create or replace function USER_ANNUAL_COMP(p_eno emp.empno%type, p_sal  in emp.sal%type,p_comm in emp.comm%type) return number as 
+
+v_annual_compensation number;
+
+begin
+
+v_annual_compensation:=(nvl(p_sal,0) +nvl(p_comm,0))*12;
+dbms_output.put_line('annual commission is '||v_annual_compensation);
+return v_annual_compensation;
+exception
+when no_data_found then
+dbms_output.put_line('error');
+end;
+/
+
+select USER_ANNUAL_COMP(a.empno,a.sal,a.comm) from emp a where empno=7788;
+
+-------------------------------------------------------------------------------
+3)
+create or replace function USER_VALID_DEPTNO(p_dno emp.deptno%type) return boolean as
+t number;
+
+begin
+select count(distinct deptno) into t from emp where deptno=p_dno;
+if t=1 then
+dbms_output.put_line('deptno exists');
+return true;
+else
+dbms_output.put_line('deptno does not exists');
+return false;
+end if;
+end;
+/
+
+
+create or replace procedure SHOW_STRENGTH(p_dno emp.deptno%type) as
+ct number;
+invalid_dept exception;
+
+begin
+if(USER_VALID_DEPTNO(p_dno)) then
+select count(*) into ct from emp where deptno=p_dno;
+dbms_output.put_line('number of employees'||ct);
+else
+raise invalid_dept;
+end if;
+
+exception
+when invalid_dept then
+dbms_output.put_line('department does not exists');
+end;
+/
+
+execute SHOW_STRENGTH(10);
+-----------------------------------------------------------------------------
+4)
+create or replace procedure SHOW_RECORDS(p_join_date DATE) as
+cursor c_emp(p_join_date DATE) is select * from emp where hiredate>p_join_date;
+v_emp c_emp%rowtype;
+begin
+for v_emp in c_emp(p_join_date )
+loop
+dbms_output.put_line('ename is'|| v_emp.ename ||'job is'|| v_emp.job||' sal is'||v_emp.sal ||'deptno is '||v_emp.deptno);
+end loop;
+end;
+/
+
+execute SHOW_RECORDS(to_date('dd-mm-yy'));
+
+----------------------------------------------------------------------------------
+5)
+create or replace procedure ADD_EMPLOYEE(p_job_id job.emp%type,v_manager_id emp.mgr%type,v_hire_date emp.hiredate%type,v_sal emp.sal%type, v_comm emp.comm%type, v_dept_id emp.deptno%type) as
+
+v_no emp.empno%type:=0;
+dno number:=0;
+mno number:=0;
+invalid_job exception;
+low_sal exception;
+invalid_dept exception;
+not_valid_empno exception;
+date_error exception;
+commission_error_1 exception;
+commission_error_2 exception;
+
+begin
+select max(empno) into v_no from emp;
+v_no:=v_no+1;
+
+if p_job_id='PROG' or p_job_id='ACC' or p_job_id='PUBACC' then
+      dbms_output.put_line('-----Processing-----');
+else
+raise invalid_job;
+end if;
+
+select count(*) into mno from emp where empno=v_manager_id;
+if(mno!=0) then
+dbms_output.put_line('-----Processing-----');
+
+else
+raise not_valid_empno;
+end if;
+
+if v_hire_date >sysdate then
+dbms_output.put_line('-----Processing-----');
+
+else 
+raise date_error;
+end if;
+
+if v_sal>800 then
+dbms_output.put_line('-----Processing-----');
+
+else
+raise low_sal;
+end if;
+
+if p_job_id='ACCOUNTANT' then
+         if v_comm is not null then
+         dbms_output.put_line('-----Processing-----');
+         else
+         raise commission_error_1;
+         end if;
+else
+         if v_comm is null then
+         dbms_output.put_line('-----Processing-----');
+         else
+         raise  commission_error_2;
+        end if;
+end if;
+
+select count(*) into dno from emp where deptno=v_dept_id;
+if(dn0!=0) then
+   dbms_output.put_line('-----Processing-----');
+ else
+raise invalid_dept; 
+end if;
+
+insert into emp values( v_no,p_job_id,v_manager_id,v_hire_date ,v_sal,v_comm,v_dept_id);
+dbms_output.put_line('one row inserted successfully');
+
+exception
+	when invalid_job then
+	dbms_output.put_line('Job is invalid');
+	when low_sal then
+	dbms_output.put_line('Salary has to be greater than 800');
+	when invalid_dept then
+	dbms_output.put_line('Department not available');
+	when not_valid_empno then
+	dbms_output.put_line('Manager Id is invalid');
+	when date_error then
+	dbms_output.put_line('Hire date should be less than todays date');
+	when commission_error_1 then
+	dbms_output.put_line('Commission cannot be null for accountant');
+	when commission_error_2 then
+	dbms_output.put_line('Commission has to be null');
+end;
+/
+-----------------------------------------------------------------------------------------
+create or replace package Manage_emp_pack as
+procedure hire_emp(p_eno emp.empno%type,p_en emp.ename%type,p_job emp.job%type,p_mgr emp.mgr%type,p_hd emp.hiredate%type,p_sal emp.sal%type,p_comm emp.comm%type,p_dno emp.deptno%type);
+procedure fire_emp(p_eno  emp.empno%type);
+v_insert_cnt number:=0;
+v_delete_cnt number:=0;
+end;
+/
+
+create or replace package  body Manage_emp_pack as
+function validate_emp(p_eno  emp.empno%type) return boolean as
+cnt number;
+begin
+select count(*) into cnt from emp where empno=p_eno;
+if (cnt=1) then
+return true;
+else
+return false;
+end if;
+end;
+
+procedure hire_emp(p_eno emp.empno%type,p_en emp.ename%type,p_job emp.job%type,p_mgr emp.mgr%type,p_hd emp.hiredate%type,p_sal emp.sal%type,p_comm emp.comm%type,p_dno emp.deptno%type) as
+begin
+if  (validate_emp(p_eno )) then
+dbms_output.put_line('Employee number already in use’);
+else
+insert into emp values(p_eno,p_en,p_job ,p_mgr,p_hd,p_sal,p_comm,p_dno);
+dbms_output.put_line('one employee added');
+v_insert_cnt :=v_insert_cnt+1;
+end if;
+end;
+
+procedure fire_emp(p_eno  emp.empno%type) as
+begin
+if (validate_emp(p_eno )) then
+delete from emp where empno=p_eno;
+v_delete_cnt:=v_delete_cnt+1;
+else
+dbms_output.put_line('Wrong employee number');
+end if;
+end;
+end;
+/
+
+------------------------------------------------
+2)
+create or replace package My_emp_pack as
+function get_avg_sal(p_nm emp.ename%type) return number;
+function get_avg_sal(p_eno emp.empno%type)return number ;
+non_existing_name exception;
+non_existing_no exception;
+end;
+/
+
+dbms_output.put_line(avg_sal);
+
+create or replace package body My_emp_pack as
+function get_avg_sal(p_nm emp.ename%type) return number as
+avg_sal number;
+non_existing_name exception;
+begin
+select avg(sal) into avg_sal from emp where ename=p_nm;
+if (avg_sal=0) then
+raise non_existing_name;
+else
+
+return (avg_sal);
+end if;
+
+
+
+
+exception 
+when non_existing_name
+then
+dbms_output.put_line('the name does not exists');
+end;
+
+function get_avg_sal(p_eno emp.empno%type)return number as
+avg_sal1 number;
+non_existing_no exception;
+begin
+select avg(sal) into avg_sal1 from emp where empno=p_eno;
+if (avg_sal1=0) then
+raise non_existing_no;
+else
+dbms_output.put_line(avg_sal1);
+return (avg_sal1);
+end if;
+
+ exception
+when non_existing_no
+then
+dbms_output.put_line('the no does not exists');
+
+end;
+
+end;
+/
+
+declare
+v_sal number;
+begin
+v_sal:=My_emp_pack.get_avg_sal('KING');
+dbms_output.put_line(v_sal);
+end;
+/
+
